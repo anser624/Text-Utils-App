@@ -2,11 +2,9 @@ import React, { useState } from "react";
 
 export default function Text(props) {
   const [text, setText] = useState(""); // Plain text
-  const [buttonDisabled, setButtonDisabled] = useState(true);
 
   const handleTextChange = (e) => {
     setText(e.target.value);
-    setButtonDisabled(e.target.value.trim() === "");
   };
 
   const handleTextTransform = (transform) => {
@@ -43,7 +41,6 @@ export default function Text(props) {
         onClick={() => handleTextTransform((text) => text.toUpperCase())}
         type="button"
         className="btn btn-outline-primary"
-        disabled={buttonDisabled}
       >
         Upper-Case
       </button>
@@ -51,7 +48,6 @@ export default function Text(props) {
         onClick={() => handleTextTransform((text) => text.toLowerCase())}
         type="button"
         className="mx-4 my-3 btn btn-outline-primary"
-        disabled={buttonDisabled}
       >
         Lower-Case
       </button>
@@ -66,7 +62,6 @@ export default function Text(props) {
         }
         type="button"
         className="mx-2 my-3 btn btn-outline-primary"
-        disabled={buttonDisabled}
       >
         Capitalize-Case
       </button>
@@ -74,7 +69,6 @@ export default function Text(props) {
         onClick={handleCopyText}
         type="button"
         className="mx-3 my-3 btn btn-outline-primary"
-        disabled={buttonDisabled}
       >
         Text-Copy
       </button>
