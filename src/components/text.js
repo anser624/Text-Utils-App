@@ -2,27 +2,23 @@ import React, { useState } from "react";
 
 export default function Text(props) {
   const [text, setText] = useState(""); // Plain text
-  // Functions to modify text
-  const upperCase = () => {
-    const newText = text.toUpperCase();
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+
+  const handleTextChange = (e) => {
+    setText(e.target.value);
+    setButtonDisabled(e.target.value.trim() === "");
+  };
+
+  const handleTextTransform = (transform) => {
+    const newText = transform(text);
     setText(newText);
   };
 
-  const lowerCase = () => {
-    const newText = text.toLowerCase();
-    setText(newText);
-  };
-  const capitalize = () => {
-    const capitalizedText = text
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-    setText(capitalizedText);
-  };
-  const copyText = () => {
+  const handleCopyText = () => {
     navigator.clipboard.writeText(text);
     alert("Copied to clipboard");
   };
+
   const removeExtraSpace = () => {
     const newText = text.replace(/\s+/g, " ").trim();
     setText(newText);
@@ -33,41 +29,52 @@ export default function Text(props) {
 
   return (
     <>
-      <div class="input-group">
-        <span class={`input-group-text bg-${props.mode} text-${props.mode==="dark"?"light":"dark"}`}>Enter Your Text !</span>
+      <div className="input-group">
+        <span className={`input-group-text bg-${props.mode} text-${props.mode==="dark"?"light":"dark"}`}>Enter Your Text !</span>
         <textarea
           className={`form-control bg-${props.mode} text-${props.mode==="dark"?"light":"dark"}`}
           aria-label="With textarea"
           rows={5}
           value={text} // Connect textarea to state
-          onChange={(e) => setText(e.target.value)} // Update state on change
+          onChange={handleTextChange} // Update state on change
         ></textarea>
       </div>
       <button
-        onClick={upperCase}
+        onClick={() => handleTextTransform((text) => text.toUpperCase())}
         type="button"
         className="btn btn-outline-primary"
+        disabled={buttonDisabled}
       >
         Upper-Case
       </button>
       <button
-        onClick={lowerCase}
+        onClick={() => handleTextTransform((text) => text.toLowerCase())}
         type="button"
         className="mx-4 my-3 btn btn-outline-primary"
+        disabled={buttonDisabled}
       >
         Lower-Case
       </button>
       <button
-        onClick={capitalize}
+        onClick={() =>
+          handleTextTransform((text) =>
+            text
+              .split(" ")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")
+          )
+        }
         type="button"
         className="mx-2 my-3 btn btn-outline-primary"
+        disabled={buttonDisabled}
       >
         Capitalize-Case
       </button>
       <button
-        onClick={copyText}
+        onClick={handleCopyText}
         type="button"
         className="mx-3 my-3 btn btn-outline-primary"
+        disabled={buttonDisabled}
       >
         Text-Copy
       </button>
