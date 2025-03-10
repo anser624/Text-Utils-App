@@ -23,6 +23,10 @@ export default function Text(props) {
     navigator.clipboard.writeText(text);
     alert("Copied to clipboard");
   };
+  const removeExtraSpace = () => {
+    const newText = text.replace(/\s+/g, " ").trim();
+    setText(newText);
+  };
   const handleClear = () => {
     setText("");
   };
@@ -66,6 +70,13 @@ export default function Text(props) {
         className="mx-3 my-3 btn btn-outline-primary"
       >
         Text-Copy
+      </button>
+      <button
+        onClick={removeExtraSpace}
+        type="button"
+        className="mx-3 my-3 btn btn-outline-primary"
+      >
+        Remove-Extra-Space
       </button>
       <button
         onClick={handleClear}
